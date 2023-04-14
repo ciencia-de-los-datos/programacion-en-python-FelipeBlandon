@@ -11,38 +11,37 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
+with open("data.csv", "r") as file:
+    content = csv.reader(file, delimiter='\t')
+    data = []
 
+    for line in content:
+        data.append(line)
 
-def pregunta_01():
-    """
-    Retorne la suma de la segunda columna.
-
-    Rta/
-    214
-
-    """
-    return
+    
+def pregunta_01():    
+    acumulador = 0
+    for iterator in data:
+        acumulador = acumulador + int(iterator[1])
+    return acumulador
 
 
 def pregunta_02():
-    """
-    Retorne la cantidad de registros por cada letra de la primera columna como la lista
-    de tuplas (letra, cantidad), ordendas alfabéticamente.
-
-    Rta/
-    [
-        ("A", 8),
-        ("B", 7),
-        ("C", 5),
-        ("D", 6),
-        ("E", 14),
-    ]
-
-    """
-    return
-
+    resultado={}
+    for i in data:
+        key = i[0]
+        if key in resultado:
+            value = resultado[key] + 1
+        else:
+            value = 1
+        resultado[key] = value
+        print(sorted(resultado.items()))
+    resultado = sorted(resultado.items())
+    return(resultado)
 
 def pregunta_03():
+    
     """
     Retorne la suma de la columna 2 por cada letra de la primera columna como una lista
     de tuplas (letra, suma) ordendas alfabeticamente.
@@ -57,8 +56,17 @@ def pregunta_03():
     ]
 
     """
-    return
-
+    resultado={}
+    for i in data:
+        key = i[0]
+        if key in resultado:
+            value = resultado[key] + int(i[1])
+        else:
+            value = int(i[1])
+        resultado[key] = value
+    resultado = sorted(resultado.items())
+    print(resultado)
+    return(resultado)
 
 def pregunta_04():
     """
@@ -82,7 +90,18 @@ def pregunta_04():
     ]
 
     """
-    return
+    resultado={}
+    for i in data:
+        key = i[2].split('-')[1]
+        if key in resultado:
+            value = resultado[key] + 1
+        else:
+            value = 1
+        resultado[key] = value
+    resultado = sorted(resultado.items())
+    print(resultado)
+    return(resultado)
+
 
 
 def pregunta_05():
@@ -100,7 +119,18 @@ def pregunta_05():
     ]
 
     """
-    return
+    resultado={}
+    for fila in data:
+        key = fila[0]
+        if key in resultado:
+            resultado[key].append(int(fila[1]))
+        else:
+            resultado[key] = [int(fila[1])]
+    resultado_2=[]
+    for item in resultado:
+        resultado_2.append((item, max(resultado[item]), min(resultado[item])))
+    
+    return sorted(resultado_2) 
 
 
 def pregunta_06():
@@ -125,7 +155,27 @@ def pregunta_06():
     ]
 
     """
-    return
+    resultado = {}
+    
+    for fila in data:
+        columna_5 = fila[4]
+        daticos = columna_5.split(',')
+        
+        for pareja in daticos:
+            temp = pareja.split(':')
+            llave = temp[0]
+            valor = temp[1]
+            
+            if llave in resultado:
+                resultado[llave].append(int(valor))
+            else:
+                resultado[llave] = [int(valor)]
+             
+    resultado_2 = []   
+    for item in resultado:
+        resultado_2.append((item, min(resultado[item]), max(resultado[item])))
+    
+    return sorted(resultado_2)
 
 
 def pregunta_07():
@@ -149,7 +199,18 @@ def pregunta_07():
     ]
 
     """
-    return
+    
+    resultado={}
+    for fila in data:
+        key = int(fila[1])
+        if key in resultado:
+            resultado[key].append(fila[0])
+        else:
+            resultado[key] = [fila[0]]
+    print(sorted(resultado.items()))
+
+  
+    return sorted(resultado.items())
 
 
 def pregunta_08():
@@ -174,7 +235,27 @@ def pregunta_08():
     ]
 
     """
-    return
+    resultado={}
+    for fila in data:
+        key = int(fila[1])
+        if key in resultado:
+            resultado[key].add(fila[0])
+        else:
+            resultado[key] = {fila[0]}
+    resultado = (sorted(resultado.items()))
+    print(resultado)
+    
+    resultado_2 = []
+    
+    for letras in resultado:
+        key= letras[0]
+        valor = sorted(list(letras[1]))
+        
+        resultado_2.append((key,valor))
+    
+    
+    
+    return resultado_2
 
 
 def pregunta_09():
@@ -197,7 +278,30 @@ def pregunta_09():
     }
 
     """
-    return
+    
+    resultado = {}
+    
+    for fila in data:
+        columna_5 = fila[4]
+        daticos = columna_5.split(',')
+        
+        for pareja in daticos:
+            temp = pareja.split(':')
+            llave = temp[0]
+            valor= llave
+            if llave in resultado:
+                resultado[llave].append(valor)
+            else:
+                resultado[llave] = [valor]
+    
+    resultado_2 = {}
+    
+    for item in resultado.items():
+        resultado_2[item[0]]= len(item[1])
+
+    
+    return resultado_2
+    
 
 
 def pregunta_10():
@@ -218,7 +322,14 @@ def pregunta_10():
 
 
     """
-    return
+    resultado = []
+    for lineas in data:
+        datos_1 = len(lineas[3].split(','))
+        datos_2 = len(lineas[4].split(','))
+        clave=lineas[0]                               
+        resultado.append((clave,datos_1,datos_2))
+    
+    return resultado
 
 
 def pregunta_11():
@@ -239,7 +350,18 @@ def pregunta_11():
 
 
     """
-    return
+    resultado = {}
+    for fila in data:
+        columna_4 = fila[3].split(',')
+        columna_2 = int(fila[1])
+        
+        for letra in columna_4:
+            if letra in resultado:
+                resultado[letra] = resultado[letra] + columna_2
+            else:
+                resultado[letra] = columna_2
+
+    return resultado
 
 
 def pregunta_12():
@@ -257,4 +379,20 @@ def pregunta_12():
     }
 
     """
-    return
+    resultado = {}
+    
+    for fila in data:
+        clave = fila[0]
+        
+        columna_5 = fila[4].split(',')
+        acumulador = 0
+        for pareja in columna_5:
+            acumulador = acumulador + int(pareja.split(':')[1])
+            
+        
+        if clave in resultado:
+            resultado[clave] = resultado[clave] + acumulador
+        else:
+            resultado[clave] = acumulador
+    
+    return resultado
